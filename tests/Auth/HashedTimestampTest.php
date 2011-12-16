@@ -67,6 +67,12 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Creates Auth_HashedTimestamp object with specified current timestamp.
+     *
+     * @param  int $currentTimestamp
+     * @return Auth_HashedTimestamp
+     */
     protected function createAuthenticatorFromCurrentTimestamp($currentTimestamp)
     {
         return new Auth_HashedTimestamp(
