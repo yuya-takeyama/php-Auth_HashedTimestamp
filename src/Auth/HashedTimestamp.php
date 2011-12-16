@@ -48,9 +48,7 @@ class Auth_HashedTimestamp
         $this->_expiration    = $expiration;
         $this->_currentTimestampProvider = isset($currentTimestampProvider) ?
             $currentTimestampProvider :
-            function () {
-                return time();
-            };
+            array($this, '_defaultCurrentTimestampProvider');
     }
 
     /**
@@ -87,5 +85,17 @@ class Auth_HashedTimestamp
     protected function _getCurrentTimestamp()
     {
         return call_user_func($this->_currentTimestampProvider);
+    }
+
+    /**
+     * Default current timestamp provider.
+     *
+     * Just returns current timestamp with time() function.
+     *
+     * @return int
+     */
+    protected static function _defaultCurrentTimestampProvider()
+    {
+        return time();
     }
 }
