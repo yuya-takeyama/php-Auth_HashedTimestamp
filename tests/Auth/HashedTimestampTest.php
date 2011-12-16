@@ -31,7 +31,7 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function auth_should_be_false_if_timestamp_is_just_expiration_time()
+    public function auth_should_be_true_if_timestamp_is_just_expiration_time()
     {
         $authenticator = new Auth_HashedTimestamp(
             $this->_hashGenerator,
