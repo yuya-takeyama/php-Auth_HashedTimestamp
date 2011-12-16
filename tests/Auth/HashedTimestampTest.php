@@ -25,7 +25,7 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         );
         $now  = self::CRITERIA_TIMESTAMP;
         $hash = call_user_func($this->_hashGenerator, $now);
-        $this->assertTrue($authenticator->auth($now, $hash));
+        $this->assertTrue($authenticator->auth($hash, $now));
     }
 
     /**
@@ -40,6 +40,21 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         );
         $now  = self::CRITERIA_TIMESTAMP + self::EXPIRATION_SECONDS;
         $hash = call_user_func($this->_hashGenerator, $now);
-        $this->assertTrue($authenticator->auth($now, $hash));
+        $this->assertTrue($authenticator->auth($hash, $now));
+    }
+
+    /**
+     * @test
+     */
+    public function auth_should_be_false_if_timestamp_is_expired()
+    {
+        $authenticator = new Auth_HashedTimestamp(
+            $this->_hashGenerator,
+            60,
+            self::CRITERIA_TIMESTAMP
+        );
+        $now  = self::CRITERIA_TIMESTAMP + self::EXPIRATION_SECONDS + 1; // expired!
+        $hash = call_user_func($this->_hashGenerator, $now);
+        $this->assertFalse($authenticator->auth($hash, $now));
     }
 }
