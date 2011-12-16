@@ -56,11 +56,11 @@ class Auth_HashedTimestamp
     /**
      * Authentication.
      *
-     * @param  string $hash Hash string as signature.
-     * @param  int    $now  Current timestamp.
+     * @param  int    $timestamp Current timestamp.
+     * @param  string $hash      Hash string as signature.
      * @return bool
      */
-    public function auth($hash, $timestamp)
+    public function auth($timestamp, $hash)
     {
         return ($this->_getCurrentTimestamp() - $timestamp) <= $this->_expiration &&
             $hash === $this->generateHash($timestamp);

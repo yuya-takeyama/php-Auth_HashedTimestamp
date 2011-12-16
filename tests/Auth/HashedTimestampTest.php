@@ -20,7 +20,7 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
     public function auth_should_be_true_if_timestamp_is_not_expired_and_hash_is_correct()
     {
         $authenticator = $this->createAuthenticatorFromCurrentTimestamp(self::TIMESTAMP);
-        $this->assertTrue($authenticator->auth(self::CORRECT_HASH, self::TIMESTAMP));
+        $this->assertTrue($authenticator->auth(self::TIMESTAMP, self::CORRECT_HASH));
     }
 
     /**
@@ -31,7 +31,7 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         $authenticator = $this->createAuthenticatorFromCurrentTimestamp(
             self::TIMESTAMP + self::EXPIRATION_SECONDS
         );
-        $this->assertTrue($authenticator->auth(self::CORRECT_HASH, self::TIMESTAMP));
+        $this->assertTrue($authenticator->auth(self::TIMESTAMP, self::CORRECT_HASH));
     }
 
     /**
@@ -42,7 +42,7 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         $authenticator = $this->createAuthenticatorFromCurrentTimestamp(
             self::TIMESTAMP + self::EXPIRATION_SECONDS + 1 // expired!
         );
-        $this->assertFalse($authenticator->auth(self::CORRECT_HASH, self::TIMESTAMP));
+        $this->assertFalse($authenticator->auth(self::TIMESTAMP, self::CORRECT_HASH));
     }
 
     /**
@@ -51,7 +51,7 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
     public function auth_should_be_false_if_hash_is_incorrect()
     {
         $authenticator = $this->createAuthenticatorFromCurrentTimestamp(self::TIMESTAMP);
-        $this->assertFalse($authenticator->auth('Incorrect Hash', self::TIMESTAMP));
+        $this->assertFalse($authenticator->auth(self::TIMESTAMP, 'Incorrect Hash'));
     }
 
     /**
