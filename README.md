@@ -8,6 +8,8 @@ Checks whether timestamp is not expired and hash is correct.
 This method is *NOT SECURE*  
 Do not use on critical use cases.
 
+This library is compatible to PHP 5.2.
+
 Synopis
 -------
 
