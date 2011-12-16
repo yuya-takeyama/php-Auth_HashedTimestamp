@@ -37,10 +37,10 @@ class Auth_HashedTimestamp
     /**
      * Constructor.
      *
-     * @param callable $hashGenerator     Function to generate hash from timestmap.
-     * @param int      $expiration        Expiration seconds.
-     * @param int      $criteriaTimestamp Criteria timestamp. (Optional)
-     *                                    Default is result of time().
+     * @param callable $hashGenerator            Function to generate hash from timestmap.
+     * @param int      $expiration               Expiration seconds.
+     * @param int      $currentTimestampProvider Current timestamp provider. (Optional)
+     *                                           Default provider returns time().
      */
     public function __construct($hashGenerator, $expiration, $currentTimestampProvider = NULL)
     {
