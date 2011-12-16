@@ -3,13 +3,18 @@ require_once dirname(__FILE__) . '/../../src/Auth/HashedTimestamp.php';
 
 class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
 {
-    const CRITERIA_TIMESTAMP = 1324034000;
+    const CURRENT_TIMESTAMP  = 1324034000;
     const EXPIRATION_SECONDS = 60;
 
     public function setUp()
     {
         $this->_hashGenerator = function ($timestamp) {
             return (string)$timestamp; // Only returns timestamp as string!
+        };
+
+        $currentTimestamp = self::CURRENT_TIMESTAMP;
+        $this->_currentTimestampProvider = function () use ($currentTimestamp) {
+            return $currentTimestamp;
         };
     }
 
@@ -21,9 +26,9 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         $authenticator = new Auth_HashedTimestamp(
             $this->_hashGenerator,
             self::EXPIRATION_SECONDS,
-            self::CRITERIA_TIMESTAMP
+            $this->_currentTimestampProvider
         );
-        $now  = self::CRITERIA_TIMESTAMP;
+        $now  = self::CURRENT_TIMESTAMP;
         $hash = call_user_func($this->_hashGenerator, $now);
         $this->assertTrue($authenticator->auth($hash, $now));
     }
@@ -36,9 +41,9 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         $authenticator = new Auth_HashedTimestamp(
             $this->_hashGenerator,
             self::EXPIRATION_SECONDS,
-            self::CRITERIA_TIMESTAMP
+            $this->_currentTimestampProvider
         );
-        $now  = self::CRITERIA_TIMESTAMP + self::EXPIRATION_SECONDS;
+        $now  = self::CURRENT_TIMESTAMP + self::EXPIRATION_SECONDS;
         $hash = call_user_func($this->_hashGenerator, $now);
         $this->assertTrue($authenticator->auth($hash, $now));
     }
@@ -51,9 +56,9 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         $authenticator = new Auth_HashedTimestamp(
             $this->_hashGenerator,
             self::EXPIRATION_SECONDS,
-            self::CRITERIA_TIMESTAMP
+            $this->_currentTimestampProvider
         );
-        $now  = self::CRITERIA_TIMESTAMP + self::EXPIRATION_SECONDS + 1; // expired!
+        $now  = self::CURRENT_TIMESTAMP + self::EXPIRATION_SECONDS + 1; // expired!
         $hash = call_user_func($this->_hashGenerator, $now);
         $this->assertFalse($authenticator->auth($hash, $now));
     }
@@ -66,9 +71,9 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         $authenticator = new Auth_HashedTimestamp(
             $this->_hashGenerator,
             self::EXPIRATION_SECONDS,
-            self::CRITERIA_TIMESTAMP
+            $this->_currentTimestampProvider
         );
-        $now  = self::CRITERIA_TIMESTAMP;
+        $now  = self::CURRENT_TIMESTAMP;
         $hash = 'Incorrect Hash';
         $this->assertFalse($authenticator->auth($hash, $now));
     }
@@ -81,7 +86,7 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         $authenticator = new Auth_HashedTimestamp(
             $this->_hashGenerator,
             self::EXPIRATION_SECONDS,
-            self::CRITERIA_TIMESTAMP
+            self::CURRENT_TIMESTAMP
         );
         $timestamp = time();
         $this->assertEquals((string)$timestamp, $authenticator->generateHash($timestamp));

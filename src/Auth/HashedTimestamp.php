@@ -28,11 +28,11 @@ class Auth_HashedTimestamp
     private $_expiration;
 
     /**
-     * Criteria timestamp.
+     * Current timestamp provider.
      *
-     * @var int
+     * @var callable
      */
-    private $_criteriaTimestamp;
+    protected $_currentTimestampProvider;
 
     /**
      * Constructor.
@@ -42,11 +42,15 @@ class Auth_HashedTimestamp
      * @param int      $criteriaTimestamp Criteria timestamp. (Optional)
      *                                    Default is result of time().
      */
-    public function __construct($hashGenerator, $expiration, $criteriaTimestamp = NULL)
+    public function __construct($hashGenerator, $expiration, $currentTimestampProvider = NULL)
     {
-        $this->_hashGenerator     = $hashGenerator;
-        $this->_expiration        = $expiration;
-        $this->_criteriaTimestamp = isset($criteriaTimestamp) ? $criteriaTimestamp : time();
+        $this->_hashGenerator = $hashGenerator;
+        $this->_expiration    = $expiration;
+        $this->_currentTimestampProvider = isset($currentTimestampProvider) ?
+            $currentTimestampProvider :
+            function () {
+                return time();
+            };
     }
 
     /**
@@ -58,7 +62,7 @@ class Auth_HashedTimestamp
      */
     public function auth($hash, $currentTimestamp)
     {
-        return ($currentTimestamp - $this->_criteriaTimestamp) <= $this->_expiration &&
+        return ($currentTimestamp - $this->_getCurrentTimestamp()) <= $this->_expiration &&
             $hash === $this->generateHash($currentTimestamp);
     }
 
@@ -71,5 +75,17 @@ class Auth_HashedTimestamp
     public function generateHash($timestamp)
     {
         return call_user_func($this->_hashGenerator, $timestamp);
+    }
+
+    /**
+     * Gets current timestamp.
+     *
+     * Just calls current timestamp provider.
+     *
+     * @return int
+     */
+    protected function _getCurrentTimestamp()
+    {
+        return call_user_func($this->_currentTimestampProvider);
     }
 }
