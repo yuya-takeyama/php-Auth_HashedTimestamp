@@ -57,4 +57,19 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         $hash = call_user_func($this->_hashGenerator, $now);
         $this->assertFalse($authenticator->auth($hash, $now));
     }
+
+    /**
+     * @test
+     */
+    public function auth_should_be_false_if_hash_is_incorrect()
+    {
+        $authenticator = new Auth_HashedTimestamp(
+            $this->_hashGenerator,
+            60,
+            self::CRITERIA_TIMESTAMP
+        );
+        $now  = self::CRITERIA_TIMESTAMP;
+        $hash = 'Incorrect Hash';
+        $this->assertFalse($authenticator->auth($hash, $now));
+    }
 }

@@ -58,6 +58,7 @@ class Auth_HashedTimestamp
      */
     public function auth($hash, $timestamp)
     {
-        return ($timestamp - $this->_criteriaTimestamp) <= $this->_expiration;
+        return ($timestamp - $this->_criteriaTimestamp) <= $this->_expiration &&
+            $hash === call_user_func($this->_hashGenerator, $timestamp);
     }
 }
