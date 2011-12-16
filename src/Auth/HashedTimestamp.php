@@ -60,10 +60,10 @@ class Auth_HashedTimestamp
      * @param  int    $now  Current timestamp.
      * @return bool
      */
-    public function auth($hash, $currentTimestamp)
+    public function auth($hash, $timestamp)
     {
-        return ($currentTimestamp - $this->_getCurrentTimestamp()) <= $this->_expiration &&
-            $hash === $this->generateHash($currentTimestamp);
+        return ($this->_getCurrentTimestamp() - $timestamp) <= $this->_expiration &&
+            $hash === $this->generateHash($timestamp);
     }
 
     /**
