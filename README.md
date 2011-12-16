@@ -17,14 +17,14 @@ Hash generator.
 <?php
 require_once 'Auth/HashedTimestamp.php';
 
-$authenticator = new Auth_HashedTimestamp(60, function ($timestamp) {
+$authenticator = new Auth_HashedTimestamp(7, function ($timestamp) {
     return md5($timestamp);
 });
 $timestamp = time();
 $hash      = $authenticator->generateHash($timestamp);
 $url       = "auth.php?timestamp={$timestamp}&hash={$hash}";
 
-echo '<a href="' . htmlspecialchars($url) . '">This URL expires in 60 seconds</a>';
+echo '<a href="' . htmlspecialchars($url) . '">This URL expires in 7 seconds</a>';
 ```
 
 Authenticator.
@@ -33,7 +33,7 @@ Authenticator.
 <?php
 require_once 'Auth/HashedTimestamp.php';
 
-$authenticator = new Auth_HashedTimestamp(60, function ($timestamp) {
+$authenticator = new Auth_HashedTimestamp(7, function ($timestamp) {
     return md5($timestamp);
 });
 if ($authenticator->auth((int)$_GET['timestamp'], $_GET['hash'])) {
