@@ -42,7 +42,7 @@ class Auth_HashedTimestamp
      * @param int      $currentTimestampProvider Current timestamp provider. (Optional)
      *                                           Default provider returns time().
      */
-    public function __construct($hashGenerator, $expiration, $currentTimestampProvider = NULL)
+    public function __construct($expiration, $hashGenerator, $currentTimestampProvider = NULL)
     {
         $this->_hashGenerator = $hashGenerator;
         $this->_expiration    = $expiration;

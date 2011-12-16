@@ -76,8 +76,8 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
     protected function createAuthenticatorFromCurrentTimestamp($currentTimestamp)
     {
         return new Auth_HashedTimestamp(
-            $this->_hashGenerator,
             self::EXPIRATION_SECONDS,
+            $this->_hashGenerator,
             function () use ($currentTimestamp) {
                 return $currentTimestamp;
             }
