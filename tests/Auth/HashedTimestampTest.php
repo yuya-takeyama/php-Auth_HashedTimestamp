@@ -69,7 +69,10 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
     {
         $authenticator = $this->createAuthenticator();
         $timestamp = time();
-        $this->assertEquals((string)$timestamp, $authenticator->generateHash($timestamp));
+        $this->assertEquals(
+            call_user_func($this->_hashGenerator, $timestamp),
+            $authenticator->generateHash($timestamp)
+        );
     }
 
     protected function createAuthenticator()
