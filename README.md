@@ -1,6 +1,9 @@
 Auth\_HashedTimestamp
 =====================
 
+master: [![Build Status](https://secure.travis-ci.org/yuya-takeyama/php-Auth_HashedTimestamp.png?branch=master)](http://travis-ci.org/yuya-takeyama/php-Auth\_HashedTimestamp)
+develop: [![Build Status](https://secure.travis-ci.org/yuya-takeyama/php-Auth_HashedTimestamp.png?branch=develop)](http://travis-ci.org/yuya-takeyama/php-Auth\_HashedTimestamp)
+
 A simple authentication library.
 
 Checks whether timestamp is not expired and hash is correct.
