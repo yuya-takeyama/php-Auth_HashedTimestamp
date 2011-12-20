@@ -90,9 +90,7 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
         return new Auth_HashedTimestamp(
             self::EXPIRATION_SECONDS,
             $this->_hashGenerator,
-            function () use ($currentTimestamp) {
-                return $currentTimestamp;
-            }
+            create_function('', "return {$currentTimestamp};")
         );
     }
 
