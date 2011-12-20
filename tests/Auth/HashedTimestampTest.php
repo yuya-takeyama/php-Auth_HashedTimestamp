@@ -9,9 +9,7 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_hashGenerator = function ($timestamp) {
-            return (string)$timestamp; // Only returns timestamp as string!
-        };
+        $this->_hashGenerator = array($this, 'generateHash');
     }
 
     /**
@@ -96,5 +94,16 @@ class Auth_HashedTimestampTest extends PHPUnit_Framework_TestCase
                 return $currentTimestamp;
             }
         );
+    }
+
+    /**
+     * Hash generation function for authentication.
+     *
+     * @param  int $timestamp
+     * @return string
+     */
+    public static function generateHash($timestamp)
+    {
+        return (string)$timestamp; // Only returns timestamp as string!
     }
 }
